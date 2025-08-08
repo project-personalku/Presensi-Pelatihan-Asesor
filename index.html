@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Mengarahkan ke Halaman Konfirmasi...</title>
+  <style>
+    /* Background gradient animasi */
+    @keyframes gradientBG {
+      0% {background-position: 0% 50%;}
+      50% {background-position: 100% 50%;}
+      100% {background-position: 0% 50%;}
+    }
+    body {
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Arial, sans-serif;
+      color: #333;
+      background: linear-gradient(-45deg, #4facfe, #00f2fe, #43e97b, #38f9d7);
+      background-size: 400% 400%;
+      animation: gradientBG 10s ease infinite;
+      transition: opacity 0.5s ease;
+    }
+    .box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+      text-align: center;
+      max-width: 420px;
+      animation: scaleIn 0.8s ease;
+    }
+    h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+    }
+    .countdown {
+      font-size: 50px;
+      font-weight: bold;
+      color: #4facfe;
+      margin: 10px 0;
+    }
+    .loader {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #4facfe;
+      border-radius: 50%;
+      width: 45px;
+      height: 45px;
+      animation: spin 1s linear infinite;
+      margin: 15px auto;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background: #4facfe;
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+    a:hover {
+      background: #00c6ff;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes scaleIn {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .typing {
+      border-right: 2px solid #4facfe;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      animation: typing 3s steps(40, end) forwards;
+    }
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+  </style>
+</head>
+<body>
+  <div class="box">
+    <h2 class="typing">🔄 Sedang mengarahkan ke halaman konfirmasi...</h2>
+    <div class="countdown" id="countdown">3</div>
+    <div class="loader"></div>
+    <p>Jika tidak otomatis, klik tombol di bawah:</p>
+    <a id="manualLink" href="#">➡️ Buka Halaman Konfirmasi</a>
+  </div>
+
+  <!-- Efek suara -->
+  <audio id="tickSound" src="https://assets.mixkit.co/sfx/preview/mixkit-interface-click-1126.mp3" preload="auto"></audio>
+  <audio id="redirectSound" src="https://assets.mixkit.co/sfx/preview/mixkit-confirmation-tone-2867.mp3" preload="auto"></audio>
+
+  <script>
+    const redirectURL = "https://script.google.com/macros/s/AKfycbwG_nzrE9-2OxMCmpf3SFdhNwtNTHGN9jSubdNJ1hkLDWvceLgCNUVm1z2hEtNLrxgC/exec"; // Ganti URL di sini
+    document.getElementById("manualLink").href = redirectURL;
+
+    let timeLeft = 3;
+    const countdownEl = document.getElementById("countdown");
+    const tickSound = document.getElementById("tickSound");
+    const redirectSound = document.getElementById("redirectSound");
+
+    const timer = setInterval(() => {
+      tickSound.play();
+      timeLeft--;
+      countdownEl.textContent = timeLeft;
+      if (timeLeft <= 0) {
+        clearInterval(timer);
+        redirectSound.play();
+        document.body.style.opacity = "0"; // transisi fade out
+        setTimeout(() => {
+          window.location.href = redirectURL;
+        }, 500);
+      }
+    }, 1000);
+  </script>
+</body>
+</html>
